@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Substitute.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Substitute.js, substitute, placeholders">
+    <meta name="description" content="Javascript class substituting keywords in string using an object. With Substitute.js you are also able to use few basic helpers and evaluate functions on object.">
+    <meta property="og:title" content="Substitute.js">
+    <meta property="og:description" content="Javascript class substituting keywords in string using an object. With Substitute.js you are also able to use few basic helpers and evaluate functions on object.">
+    <meta property="og:image" content="http://substitute.justart.org/logo.jpg">
+		<script src="./../substitute.js"></script>
+    <style>
+    a { color: #551A8B; }
+    body {
+      padding: 20px; font-family: Arial; line-height: 1.6em; font-size: 14px;    
+    }
+    pre {
+      border: 1px dashed gray; padding: 20px; margin: 20px 0; background: #ccc; line-height: 1em; overflow: scroll;    
+    }
+    ul { padding-left: 18px; }
+    h1 { font-size: 48px; margin: 30px 0; }
+    h2 { font-size: 36px; margin: 60px 0 30px; padding: 0 0 30px; border-bottom: 1px solid #DDD; }
+    h3 { font-size: 22px; margin: 20px 0; }
+    hr { margin: 30px 0 40px; border: 0; border-bottom: 1px solid #DDD; }
+    .large { font-size: 20px; line-height: 1.8em; color: #444; }
+    .center { text-align: center; }
+    .small { font-size: 12px; }
+    .button { color: #fff; background: #6195ED; display: inline-block;  padding: 10px; margin: 10px 0; text-decoration: none; text-transform: uppercase; font-size: 18px; }
+    .blue {color:#6195ED;}
+    .wine { color: #9D2556; }
+    .border-bottom { padding: 0 0 8px; border-bottom: 1px solid #444; }
+    @media only screen 
+    and (min-device-width : 320px) 
+    and (max-device-width : 480px) {
+      body { font-size: 16px; }
+      h1 { font-size: 44px; }
+      .button { display: block; }
+      pre { font-size: 14px; }
+    }
+		.bottom-margin-none { margin-bottom: 10px; }
+		#status { border: 1px solid #ddd; padding: 10px; margin: 20px 0; font-size: 20px; }
+		.replaced { background: green; } .reverted { background: gray; }
+    </style>
+  </head>
+  <body>
+    <h1>Substitute<span class="blue">.js</span></h1>
+    <p class="large">Javascript class substituting keywords in string using an object. With Substitute.js you are also able to use few basic helpers and evaluate functions inside object.</p>
+    <hr>
+		<h2>1. Docs</h2>
+    <h3>Declaration</h3>
+    <p>new Substitute(arguments)</p>
+  	<h4>Arguments:</h4>
+  	<p>arguments parameter is an object.</p>
+  	<ul>
+  		<li>element</li>
+  		<li>options</li>
+  		<li>object</li>
+  		<li>callbackInit</li>
+  		<li>callbackRevert</li>
+  	</ul>
+    <h3>Methods:</h3>
+    <ul>
+      <li>init()</li>
+      <li>revert()</li>
+    </ul>
+    <h3>Placeholders:</h3>
+    <ul>
+      <li>{{string}} - print value with escaping</li>
+      <li>{{{string}}} - print value without escaping</li>
+      <li>{{string(helper,...)}} / {{{string(helper,...)}}} - print value with / without escaping using helpers</li>
+    </ul>
+    <h3>Options:</h3>
+    <ul>
+      <li>EVALUATE</li>
+    </ul>
+    <h3>Helpers:</h3>
+    <ul>
+      <li>lower</li>
+      <li>upper</li>
+      <li>firstUpper</li>
+      <li>trim</li>
+      <li>repeat:count</li>
+      <li>replace:find:replace</li>
+      <li>substring:start:length</li>
+      <li>stripTags</li>
+      <li>round</li>
+      <li>parseInt</li>
+    </ul>
+    <h2>2. Preview:</h2>
+    <pre>
+<strong class="wine">var</strong> obj = {
+  '<span class="wine">string_1</span>': <strong>function</strong> () { return '<span class="wine">The sky was dark. <strong class="blue">{{{string_2}}}</strong></span>'; },
+  '<span class="wine">string_2</span>': '<span class="wine">&lt;strong&gt;It was November. Although it was not yet late.&lt;/strong&gt;</span>',
+  '<span class="wine">string_3</span>': '<span class="wine">run </span>',
+};
+
+<strong class="wine">var</strong> s = <strong>new</strong> Substitute({
+  element: document.getElementById('<span class="wine">substitute</span>'),
+  object: obj,
+  options: ['<span class="wine">EVALUATE</span>'],
+  callbackInit: (<strong>function</strong> (){ document.getElementById('status').className = '<span class="wine">replaced</span>'; }),
+  callbackRevert: (<strong>function</strong> () { document.getElementById('status').className = '<span class="wine">reverted</span>'; }),
+});
+
+<strong>function</strong> init() {
+  s.init();
+}
+<strong>function</strong> revert() {
+  s.revert();
+}
+    </pre>
+    <div id="substitute">
+    	<div id="status"></div>
+      <a href="javascript:void(0)" class="button" onClick="init()">Substitute</a>
+      <a href="javascript:void(0)" class="button" onClick="revert()">Revert</a>
+      <p>{{{string_1}}}</p>
+      <p>{{{string_2}}}</p>
+      <p>{{{string_2(upper)}}}</p>
+      <p>{{{string_3(repeat:3,firstUpper,trim)}}}</p>
+      <p>{{{string_2(replace:November:January)}}}</p>
+      <p>{{{string_2(stripTags)}}}</p>
+      <p>{{{string_1(substring:0:5)}}}</p>
+      <p>{{string_2}}</p>
+    </div>
+    <hr>
+    <p class="center small" style="margin-bottom: 30px;">&copy; Vojtìch Václav Porteš</p>
+    <script>
+    var obj = {
+      'string_1': function(){ return 'The sky was dark. {{{string_2}}}'; },
+      'string_2': '<strong>It was November. Although it was not yet late.</strong>',
+      'string_3': 'run ',
+    };
+    
+    var s = new Substitute({
+			element: document.getElementById('substitute'),
+			object: obj,
+			options: ['EVALUATE'],
+			callbackInit: (function(){ document.getElementById('status').className = 'replaced'; }),
+			callbackRevert: (function(){ document.getElementById('status').className = 'reverted'; }),
+		});
+    
+    function init() {
+      s.init();
+    }
+    function revert() {
+      s.revert();
+    }
+    </script>
+  </body>
+</html>
