@@ -27,7 +27,7 @@ ___Placeholders:___
 
 	1. {{string}} - print value with escaping
 	2. {{{string}}} - print value without escaping
-  3. {{string(helper,...)}}, {{{string(helper,...)}}} - print value with, without escaping using helpers
+	3. {{string(helper,...)}}, {{{string(helper,...)}}} - print value with, without escaping using helpers
 
 ___Options:___
 
