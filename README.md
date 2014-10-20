@@ -36,15 +36,15 @@ ___Options:___
 ___Helpers:___
 
 	1. lower
-  2. upper
-  3. firstUpper
-  4. trim
-  5. repeat:count
-  6. replace:find:replace
-  7. substring:start:length
-  8. stripTags
-  9. round
-  10. parseInt
+	2. upper
+	3. firstUpper
+	4. trim
+	5. repeat:count
+	6. replace:find:replace
+	7. substring:start:length
+	8. stripTags
+	9. round
+	10. parseInt
   
 ## Example
 
