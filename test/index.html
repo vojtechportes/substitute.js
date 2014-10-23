@@ -39,12 +39,16 @@
       pre { font-size: 14px; }
     }
 		.bottom-margin-none { margin-bottom: 10px; }
+		.margin-bottom-reset { margin-bottom: 0; }
+		.margin-reset { margin: 0; }
 		#status { border: 1px solid #ddd; padding: 10px; margin: 20px 0; font-size: 20px; }
 		.replaced { background: green; } .reverted { background: gray; }
+		.gray { color: gray; }
     </style>
   </head>
   <body>
-    <h1>Substitute<span class="blue">.js</span></h1>
+    <h1 class="margin-bottom-reset">Substitute<span class="blue">.js</span></h1>
+    <p class="gray marign-reset">(version 1.01)</p>
     <p class="large">Javascript class substituting keywords in string using an object. With Substitute.js you are also able to use few basic helpers and evaluate functions inside object.</p>
     <hr>
 		<h2>1. Docs</h2>
@@ -67,13 +71,17 @@
     <h3>Placeholders:</h3>
     <ul>
       <li>{{string}} - print value with escaping</li>
+      <li>{{string.key...}} / {{{string[0]...}}} - print nested object or array value with / without escaping</li>
       <li>{{{string}}} - print value without escaping</li>
       <li>{{string(helper,...)}} / {{{string(helper,...)}}} - print value with / without escaping using helpers</li>
     </ul>
     <h3>Options:</h3>
     <ul>
+    	<li>NESTED_OBJECT</li>
       <li>EVALUATE</li>
     </ul>
+    <p><strong>NESTED_OBJECT</strong> will allow you to use nested objects<br /><strong>EVALUATE</strong> will evaluate 1) functions on objects keys; 2) placeholders in object values</p>
+    <p>Order of used options is important. If you want to use NESTED_OBJECT, it has to be declard before EVALUATE option.</p>
     <h3>Helpers:</h3>
     <ul>
       <li>lower</li>
@@ -93,6 +101,8 @@
   '<span class="wine">string_1</span>': <strong>function</strong> () { return '<span class="wine">The sky was dark. <strong class="blue">{{{string_2}}}</strong></span>'; },
   '<span class="wine">string_2</span>': '<span class="wine">&lt;strong&gt;It was November. Although it was not yet late.&lt;/strong&gt;</span>',
   '<span class="wine">string_3</span>': '<span class="wine">run </span>',
+  '<span class="wine">object_1</span>': {'<span class="wine">string_1</span>': '<span class="wine">{{{string_1}}}</span>'},
+  '<span class="wine">object_2</span>': ['<span class="wine">It was late</span>', '<span class="wine">And dark {{{object_2[0]}}}</span>'],	  
 };
 
 <strong class="wine">var</strong> s = <strong>new</strong> Substitute({
@@ -122,6 +132,8 @@
       <p>{{{string_2(stripTags)}}}</p>
       <p>{{{string_1(substring:0:5)}}}</p>
       <p>{{string_2}}</p>
+      <p>{{{object_1.string_1}}}</p>
+      <p>{{{object_2[0]}}} - {{{object_2[1]}}}</p>
     </div>
     <hr>
     <p class="center small" style="margin-bottom: 30px;">&copy; Vojtìch Václav Porteš</p>
@@ -130,12 +142,14 @@
       'string_1': function(){ return 'The sky was dark. {{{string_2}}}'; },
       'string_2': '<strong>It was November. Although it was not yet late.</strong>',
       'string_3': 'run ',
+      'object_1': {'string_1': '{{{string_3}}} I closed the door and put the shop key in its usual place behind Bailey\'s Advanced Principles of Geometry.'},
+      'object_2': ['It was late', 'And dark {{{object_2[0]}}}']
     };
     
     var s = new Substitute({
 			element: document.getElementById('substitute'),
 			object: obj,
-			options: ['EVALUATE'],
+			options: ['NESTED_OBJECTS', 'EVALUATE'],
 			callbackInit: (function(){ document.getElementById('status').className = 'replaced'; }),
 			callbackRevert: (function(){ document.getElementById('status').className = 'reverted'; }),
 		});
