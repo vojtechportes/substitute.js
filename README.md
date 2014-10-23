@@ -95,8 +95,19 @@ ___Helpers:___
 		<p>{{{object_1.string_1}}}</p>
 		<p>{{string_1}}</p>
 		<p>{{{string_1(stripTags)}}}</p>
-		<p>{{{string_1(substring:0:20)}}}</p>
+		<p>{{{string_1(substring:0:25)}}}</p>
 		<p>{{{string_3(repeat(3),firstUpper,trim)}}}</p>
 	</div>
+	
+	/* Output */
+	
+	<div>
+		<p>It was late - And dark</p>
+		<p>The sky was dark. <strong>It was November. Although it was not yet late.</strong></p>
+		<p>The sky was dark. &lt;strong&gt;It was November. Although it was not yet late.&lt;/strong&gt;</p>
+		<p>The sky was dark. It was November. Although it was not yet late.</p>
+		<p>The sky was dark. <stron</p> /* If you want to use substring for string where are unstripped tags, use stripTags helper before substring helper */
+		<p>Run run run</p>
+	</div>	
 	
 ```   
