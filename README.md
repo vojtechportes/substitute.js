@@ -96,7 +96,7 @@ ___Helpers:___
 		<p>{{string_1}}</p>
 		<p>{{{string_1(stripTags)}}}</p>
 		<p>{{{string_1(substring:0:25)}}}</p>
-		<p>{{{string_3(repeat(3),firstUpper,trim)}}}</p>
+		<p>{{{string_3(repeat:3,firstUpper,trim)}}}</p>
 	</div>
 	
 	/* Output */
