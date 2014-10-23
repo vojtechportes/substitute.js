@@ -61,7 +61,7 @@ ___Helpers:___
 ``` js
     
     /* Javascript example */
-		var obj = {
+    var obj = {
       'string_1': function(){ return 'The sky was dark. {{{string_2}}}'; },
       'string_2': '<strong>It was November. Although it was not yet late.</strong>',
       'string_3': 'run ',
