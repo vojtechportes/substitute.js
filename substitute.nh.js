@@ -24,7 +24,7 @@ function Substitute(arguments){
 	if (typeof arguments === 'undefined' || typeof arguments !== 'object') {
 		var arguments = new Object();
 	}
-  var allowed = new Array('EVALUATE');
+  var allowed = new Array('EVALUATE', 'NESTED_OBJECTS');
   if (typeof arguments.element === 'undefined') {
     arguments['element'] = document.getElementsByTagName('body')[0];
   }
@@ -52,13 +52,16 @@ function Substitute(arguments){
 }
 
 Substitute.prototype = {
-  init: function () {
+  init: function () {  	
 		for (key in this.options) {
       var val = this.options[key];
       switch (val) {
         case 'EVALUATE':
-          this.evaluate();
+          this.evaluate(this.object);
           break;
+        case 'NESTED_OBJECTS':
+        	this.object = this.flatten(this.object);
+        	break;
       }
     }
     var string = this.substitute(this.element.innerHTML, this.object);
@@ -84,23 +87,51 @@ Substitute.prototype = {
     var o = this;
     return String(element).replace(regexp || (/\\?(?:\{)?\{\{([^{}]+)\}\}(?:\})?/g), function(match, name){
       var encode = true;
-      if (match.indexOf('{{{') === 0) { encode = false; }
+      if (match.indexOf('{{{') === 0) {
+				encode = false;
+			}
       if (match.charAt(0) == '\\') return match.slice(1);
-			return (object[name] != null) ? ((encode) ? o.htmlEncode(object[name]) : object[name]) : '';
-    });
-  },
-  evaluate: function () {
-    for (key in this.object) {
-      if (typeof this.object[key] === 'function') {
-        var val = this.object[key]();
-        this.object[key] = this.substitute(val, this.object);
-      }
-    }
-    return this.object;
-  },
-  htmlEncode: function  (str) {
-    return str.replace(/[&<>"']/g, function($0) {
-        return "&" + {"&":"amp", "<":"lt", ">":"gt", '"':"quot", "'":"#39"}[$0] + ";";
-    }); 
-  }  
+			var string = object[name]; 
+			return (string != null) ? ((encode) ? o.htmlEncode(string) : string) : '';
+		});
+	},
+	evaluate: function (object) {
+		for (key in object) {
+			if (typeof object[key] === 'function') {
+				var val = object[key]();
+				object[key] = this.substitute(val, object);
+			}
+		}
+		for (key in object) {
+			var val = object[key];
+			object[key] = this.substitute(val, object);
+		}
+	},
+	htmlEncode: function  (str) {
+		return str.replace(/[&<>"']/g, function($0) {
+			return "&" + {"&":"amp", "<":"lt", ">":"gt", '"':"quot", "'":"#39"}[$0] + ";";
+		}); 
+	},
+	flatten: function (o) {
+	  var prefix = arguments[1] || "", out = arguments[2] || {}, name;
+	  for (name in o) {
+	    if (o.hasOwnProperty(name)) {
+	      if (typeof o[name] === "object") {
+	        if (Array.isArray(o[name])) {
+	          this.flatten(o[name], prefix + name + '[array]', out);
+	        } else {
+	          this.flatten(o[name], prefix + name + '.', out);
+	        }
+	      } else {
+	        if ((prefix + name).indexOf('[array]') > 0) {
+	          var a = prefix.replace('[array]', '[' + name + ']');
+	          out[a] = o[name];
+	        } else {
+	          out[prefix + name] = o[name];        
+	        }
+	      };
+	    }
+	  }
+	  return out;
+	}	
 } 

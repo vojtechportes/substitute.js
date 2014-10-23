@@ -57,7 +57,6 @@ Substitute.prototype = {
       var val = this.options[key];
       switch (val) {
         case 'EVALUATE':
-        	console.log(this.object);
           this.evaluate(this.object);
           break;
         case 'NESTED_OBJECTS':
@@ -65,7 +64,6 @@ Substitute.prototype = {
         	break;
       }
     }
-    console.log(this.object);
     var string = this.substitute(this.element.innerHTML, this.object);
     this.element.innerHTML = string;		
 		if ( this.callbackInit && typeof ( this.callbackInit ) == "function" ) { 
@@ -121,7 +119,6 @@ Substitute.prototype = {
         return str.replace(helper[1], helper[2]);
         break;
       case 'substring':
-      	console.log(str);
         return str.substring(parseInt(helper[1]), parseInt(helper[2]));
         break;
       case 'stripTags':
@@ -148,7 +145,6 @@ Substitute.prototype = {
 				return (helpers.string != null) ? ((encode) ? o.htmlEncode(helpers.string) : helpers.string) : '';
 			} else {
 				var string = object[name]; 
-				console.log(string);
 				return (string != null) ? ((encode) ? o.htmlEncode(string) : string) : '';
 			}
 		});
