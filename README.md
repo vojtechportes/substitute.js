@@ -15,46 +15,46 @@ ___Arguments___
 
 arguments parameter is an object.
 
-	1. element
-	2. options
-	3. object
-	4. callbackInit
-	5. callbackRevert
+  1. element - element on which will be substitution proceeded
+  2. options
+  3. object - which object will be used to substitute placeholders
+  4. callbackInit - callback when substitution is done
+  5. callbackRevert - callbacak when rever of substitution is done
 
 ___Methods:___
 
-	1. init()
-	2. revert()
+  1. init()
+  2. revert()
 
 ___Placeholders:___
 
-	1. **{{string}}** - print value with escaping
-	2. **{{string.key...}}** / **{{{string[0]...}}}** - print nested object or array value with / without escaping
-	3. **{{{string}}}** - print value without escaping
-	4. **{{string(helper,...)}}**, **{{{string(helper,...)}}}** - print value with, without escaping using helpers
+  1. **{{string}}** - print value with escaping
+  2. **{{string.key...}}** / **{{{string[0]...}}}** - print nested object or array value with / without escaping
+  3. **{{{string}}}** - print value without escaping
+  4. **{{string(helper,...)}}**, **{{{string(helper,...)}}}** - print value with, without escaping using helpers
 
 ___Options:___
 
-	1. NESTED_OBJECTS
-	2. EVALUATE
+  1. NESTED_OBJECTS
+  2. EVALUATE
 
-  **NESTED_OBJECT** will allow you to use nested objects
-	**EVALUATE** will evaluate 1) functions on objects keys; 2) placeholders in object values 
+**NESTED_OBJECT** will allow you to use nested objects
+**EVALUATE** will evaluate 1) functions on objects keys; 2) placeholders in object values 
 	
-	Order of used options is important. If you want to use NESTED_OBJECT, it has to be declard before EVALUATE option.
+Order of used options is important. If you want to use NESTED_OBJECT, it has to be declard before EVALUATE option.
 
 ___Helpers:___
 
-	1. lower
-	2. upper
-	3. firstUpper
-	4. trim
-	5. repeat:count
-	6. replace:find:replace
-	7. substring:start:length
-	8. stripTags
-	9. round
-	10. parseInt
+  1. lower
+  2. upper
+  3. firstUpper
+  4. trim
+  5. repeat:count
+  6. replace:find:replace
+  7. substring:start:length
+  8. stripTags
+  9. round
+  10. parseInt
   
 ## 2. Example
 
