@@ -1,3 +1,6 @@
+# Substitute.js
+(version 1.01)
+
 Javascript class substituting keywords in string using an object. With Substitute.js you are also able to use few basic helpers and evaluate functions inside object.
 
 --
@@ -25,13 +28,20 @@ ___Methods:___
 
 ___Placeholders:___
 
-	1. {{string}} - print value with escaping
-	2. {{{string}}} - print value without escaping
-	3. {{string(helper,...)}}, {{{string(helper,...)}}} - print value with, without escaping using helpers
+	1. **{{string}}** - print value with escaping
+	2. **{{string.key...}}** / **{{{string[0]...}}}** - print nested object or array value with / without escaping
+	3. **{{{string}}}** - print value without escaping
+	4. **{{string(helper,...)}}**, **{{{string(helper,...)}}}** - print value with, without escaping using helpers
 
 ___Options:___
 
-	1. EVALUATE
+	1. NESTED_OBJECTS
+	2. EVALUATE
+
+  **NESTED_OBJECT** will allow you to use nested objects
+	**EVALUATE** will evaluate 1) functions on objects keys; 2) placeholders in object values 
+	
+	Order of used options is important. If you want to use NESTED_OBJECT, it has to be declard before EVALUATE option.
 
 ___Helpers:___
 
@@ -46,20 +56,23 @@ ___Helpers:___
 	9. round
 	10. parseInt
   
-## Example
+## 2. Example
 
-**Example**
-
-    var obj = {
+``` js
+    
+    /* Javascript example */
+		var obj = {
       'string_1': function(){ return 'The sky was dark. {{{string_2}}}'; },
       'string_2': '<strong>It was November. Although it was not yet late.</strong>',
       'string_3': 'run ',
+      'object_1': {'string_1' '{{{string_1}}}', 'string_2': 'I closed the door and put the shop'},
+      'array_1': ['It was late', 'And dark']
     };
     
     var s = new Substitute({
 			element: document.getElementById('substitute'),
 			object: obj,
-			options: ['EVALUATE'],
+			options: ['NESTED_OBJECTS', 'EVALUATE'],
 			callbackInit: (function(){ document.getElementById('status').className = 'replaced'; }),
 			callbackRevert: (function(){ document.getElementById('status').className = 'reverted'; }),
 		});
@@ -70,3 +83,20 @@ ___Helpers:___
     function revert() {
       s.revert();
     }
+
+``` 
+
+``` html
+	
+	/* HTML example */
+	...
+	<div>
+		<p>{{{array_1[0]}}} - {{{array_1[1]}}}</p>
+		<p>{{{object_1.string_1}}}</p>
+		<p>{{string_1}}</p>
+		<p>{{{string_1(stripTags)}}}</p>
+		<p>{{{string_1(substring:0:20)}}}</p>
+		<p>{{{string_3(repeat(3),firstUpper,trim)}}}</p>
+	</div>
+	
+```   
